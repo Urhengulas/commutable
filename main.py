@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-"""Map commute type to gramm of co2 per km"""
+"""Map commute type to gramm of co2 per km and amount of people"""
 TRANSPORT_TYPES: Dict[str, Tuple[float, int]] = {
     "BIKE": (0.0, 1),
     "BUS": (86.5, 1),
@@ -9,7 +9,7 @@ TRANSPORT_TYPES: Dict[str, Tuple[float, int]] = {
 }
 
 
-def calculate_route(commute_type) -> int:
+def calculate_route(commute_type: str) -> int:
     """
     Calculate the route.
 
@@ -33,7 +33,7 @@ def calculate_emission(
 
 
 if __name__ == "__main__":
-    transport_emissions = {}
+    transport_emissions: Dict[str, int] = dict()
     for commute_type, (emission_factor, number_of_people) in TRANSPORT_TYPES.items():
         distance = calculate_route(commute_type)
         total_emission = calculate_emission(distance, emission_factor, number_of_people)
