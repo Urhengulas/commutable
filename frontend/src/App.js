@@ -6,7 +6,7 @@ import  { Container, Button, Typography, TextField } from '@mui/material';
 import { border } from '@mui/system';
 
 const App = () => {
-
+  const [result, setResult] = useState('Shitty');
   return (
     <Container className="App" maxWidth='xs' style={{ boxShadow: '10px 10px 52px 0px rgba(0,0,0,0.39)', borderRadius: '11px', marginTop: '30px' }}>
       <RouteSelection></RouteSelection>
@@ -14,10 +14,10 @@ const App = () => {
       {/* TODO: Car selection is only shown when car has been chosen as one of the commute choices */}
       <CarSelection></CarSelection>
       {/* Button to confirm */}
-      <Button variant='contained'>
+      <Button variant='contained' onClick={ () => setResult('Awesome')}>
         Calculate savings !
       </Button>
-      <ResultDisplay></ResultDisplay>
+      <ResultDisplay coolText={result}></ResultDisplay>
       </Container>
   );
 }
@@ -58,10 +58,10 @@ const CarSelection = () => {
   );
 }
 
-const ResultDisplay = () => {
+const ResultDisplay = (props) => {
   return(
     <Container>
-      <Typography variant='h1' color='green'>Result</Typography>
+      <Typography variant='h1' color='green'>{props.coolText}</Typography>
     </Container>
   );
 }
