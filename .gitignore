@@ -1,3 +1,4 @@
 .env/
 *.pyc
 maps-api-key
+/target
