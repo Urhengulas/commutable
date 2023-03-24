@@ -2,18 +2,22 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import '@mui/material/Button'
-import { Container, Typography, TextField } from '@mui/material';
+import  { Container, Button, Typography, TextField } from '@mui/material';
+import { border } from '@mui/system';
 
 const App = () => {
 
   return (
-    <Container className="App" maxWidth='xs'>
+    <Container className="App" maxWidth='xs' style={{ boxShadow: '10px 10px 52px 0px rgba(0,0,0,0.39)', borderRadius: '11px', marginTop: '30px' }}>
       <RouteSelection></RouteSelection>
       <CommuteTypeSelection></CommuteTypeSelection>
       {/* TODO: Car selection is only shown when car has been chosen as one of the commute choices */}
       <CarSelection></CarSelection>
       {/* Button to confirm */}
-      {/* Result screen */}
+      <Button variant='contained'>
+        Calculate savings !
+      </Button>
+      <ResultDisplay></ResultDisplay>
       </Container>
   );
 }
@@ -37,16 +41,27 @@ const RouteSelection = () => {
 
 const CommuteTypeSelection = () => {
   return(
-    <Container>
+    <Container style={{minHeight: '300px'}}>
       <Typography align='left' variant='h6'>Your Week</Typography>
+      <div>some 5 days as a selection</div>
     </Container>
   );
 }
 
 const CarSelection = () => {
   return(
-    <Container>
+    <Container style={{ minHeight: '220px', marginBottom: '20px'}}>
+      <Typography align='left' variant='h6'>Your Car</Typography>
+      <>CAR GO BROOM</>
 
+    </Container>
+  );
+}
+
+const ResultDisplay = () => {
+  return(
+    <Container>
+      <Typography variant='h1' color='green'>Result</Typography>
     </Container>
   );
 }
