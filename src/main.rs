@@ -180,7 +180,7 @@ fn measure_route(
         r#type: String,
     }
 
-    let url = format!(
+    let mut url = format!(
         "{}?key={}&origin={}&destination={}&mode={}&departure_time={}",
         BASE_URL,
         API_KEY,
@@ -189,6 +189,10 @@ fn measure_route(
         transport.mode(),
         1679896800, // Mon Mar 27 2023 08:00:00 GMT+0200 (CEST)
     );
+
+    if let Transport::CarPool { stopover, .. } = transport {
+        url.push_str(format!("&waypoints=via:{stopover}").as_str())
+    }
 
     let res: Response = reqwest::blocking::get(&url).unwrap().json().unwrap();
     let leg = &res.routes[0].legs[0];
