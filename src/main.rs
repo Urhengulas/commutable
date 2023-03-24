@@ -17,9 +17,9 @@ enum Transport {
         size: CarSize,
         stopover: Location,
     },
-    Cycling,
+    Cycle,
     Transit(Option<TransitMode>),
-    Walking,
+    Walk,
 }
 
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
@@ -90,9 +90,9 @@ impl Transport {
     fn mode(&self) -> &str {
         match self {
             Transport::Car { .. } | Transport::CarPool { .. } => "driving",
-            Transport::Cycling => "bicycling",
+            Transport::Cycle => "bicycling",
             Transport::Transit(_) => "transit",
-            Transport::Walking => "walking",
+            Transport::Walk => "walking",
         }
     }
 
@@ -113,7 +113,7 @@ impl Transport {
                 (Propulsion::Gas, CarSize::Medium) => 340,
                 (Propulsion::Gas, CarSize::Big) => 410,
             },
-            Transport::Cycling | Transport::Walking => 0,
+            Transport::Cycle | Transport::Walk => 0,
             Transport::Transit(Some(transit_mode)) => match transit_mode {
                 TransitMode::Bus => 108,
                 TransitMode::Train => 93,
@@ -134,9 +134,9 @@ impl Display for Transport {
             match self {
                 Transport::Car { .. } => "Driving",
                 Transport::CarPool { .. } => "Carpooling",
-                Transport::Cycling => "Cycling",
+                Transport::Cycle => "Cycling",
                 Transport::Transit(_) => "Public transport",
-                Transport::Walking => "Walking",
+                Transport::Walk => "Walking",
             }
         )
     }
@@ -255,11 +255,25 @@ fn calculate_emission(distance: u32, transport: &Transport) -> u32 {
 
 #[tokio::main]
 async fn main() {
-    let router = warp::path("car")
+    let car = warp::path!("car")
         .and(warp::query::<RouteQuery>())
         .and(warp::query::<CarQuery>())
-        .and_then(handle_car)
-        .boxed();
+        .and_then(handle_car);
+    let car_pool = warp::path!("carpool")
+        .and(warp::query::<RouteQuery>())
+        .and(warp::query::<CarQuery>())
+        .and(warp::query::<CarPoolQuery>())
+        .and_then(handle_carpool);
+    let cycle = warp::path!("cycle")
+        .and(warp::query::<RouteQuery>())
+        .and_then(handle_cycle);
+    let transit = warp::path!("transit")
+        .and(warp::query::<RouteQuery>())
+        .and_then(handle_transit);
+    let walk = warp::path!("walk")
+        .and(warp::query::<RouteQuery>())
+        .and_then(handle_walk);
+    let router = car.or(car_pool).or(cycle).or(transit).or(walk);
 
     warp::serve(router).run(([127, 0, 0, 1], 3030)).await;
 }
@@ -276,14 +290,13 @@ struct CarQuery {
     size: String,
 }
 
-// #[derive(Debug, Deserialize)]
-// struct CarPoolQuery {
-//     propulsion: String,
-//     car_size: String,
-// }
+#[derive(Debug, Deserialize)]
+struct CarPoolQuery {
+    stopover: Location,
+}
 
 #[derive(Debug, Serialize)]
-struct CarResponse {
+struct ApiResponse {
     distance: u32,
     duration: u32,
     emissions: u32,
@@ -300,7 +313,81 @@ async fn handle_car(route_query: RouteQuery, car_query: CarQuery) -> Result<impl
     )
     .await;
     let emissions = calculate_emission(distance, &transport);
-    Ok(warp::reply::json(&CarResponse {
+    Ok(warp::reply::json(&ApiResponse {
+        distance,
+        duration,
+        emissions,
+    }))
+}
+
+async fn handle_carpool(
+    route_query: RouteQuery,
+    car_query: CarQuery,
+    carpool_query: CarPoolQuery,
+) -> Result<impl Reply, Rejection> {
+    let propulsion = car_query.propulsion.parse::<Propulsion>().unwrap();
+    let size = car_query.size.parse::<CarSize>().unwrap();
+    let mut transport = Transport::CarPool {
+        propulsion,
+        size,
+        stopover: carpool_query.stopover,
+    };
+    let (distance, duration) = measure_route(
+        &route_query.origin,
+        &route_query.destination,
+        &mut transport,
+    )
+    .await;
+    let emissions = calculate_emission(distance, &transport);
+    Ok(warp::reply::json(&ApiResponse {
+        distance,
+        duration,
+        emissions,
+    }))
+}
+
+async fn handle_cycle(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
+    let mut transport = Transport::Cycle;
+    let (distance, duration) = measure_route(
+        &route_query.origin,
+        &route_query.destination,
+        &mut transport,
+    )
+    .await;
+    let emissions = calculate_emission(distance, &transport);
+    Ok(warp::reply::json(&ApiResponse {
+        distance,
+        duration,
+        emissions,
+    }))
+}
+
+async fn handle_transit(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
+    let mut transport = Transport::Transit(None);
+    let (distance, duration) = measure_route(
+        &route_query.origin,
+        &route_query.destination,
+        &mut transport,
+    )
+    .await;
+    let emissions = calculate_emission(distance, &transport);
+    Ok(warp::reply::json(&ApiResponse {
+        distance,
+        duration,
+        emissions,
+    }))
+}
+
+async fn handle_walk(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
+    let mut transport = Transport::Walk;
+    let (distance, duration) = measure_route(
+        &route_query.origin,
+        &route_query.destination,
+        &mut transport,
+    )
+    .await;
+    let emissions = calculate_emission(distance, &transport);
+    Ok(warp::reply::json(&ApiResponse {
         distance,
         duration,
         emissions,
