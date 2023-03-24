@@ -343,7 +343,7 @@ async fn handle_transport(
     }))
 }
 
-fn experiment_function() {
+async fn experiment_function() {
     let home = "Hamburg".into();
     let work = "Berlin".into();
     let mut transport = Transport::Car {
