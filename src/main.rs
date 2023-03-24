@@ -250,7 +250,7 @@ fn calculate_emission(distance: u32, transport: &Transport) -> u32 {
         Transport::CarPool { .. } => 2,
         _ => 1,
     };
-    (distance * transport.co2()) / number_of_people
+    (distance * transport.co2()) / 1000 / number_of_people
 }
 
 #[tokio::main]
