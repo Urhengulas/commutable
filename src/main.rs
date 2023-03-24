@@ -148,39 +148,32 @@ fn measure_route(
     struct Response {
         routes: Vec<Route>,
     }
-
     #[derive(Debug, Deserialize)]
     struct Route {
         legs: Vec<Leg>,
     }
-
     #[derive(Debug, Deserialize)]
     struct Leg {
         distance: Entry,
         duration: Entry,
         steps: Vec<Step>,
     }
-
     #[derive(Debug, Deserialize)]
     struct Entry {
         value: u32,
     }
-
     #[derive(Debug, Deserialize)]
     struct Step {
         transit_details: Option<TransitDetails>,
     }
-
     #[derive(Clone, Debug, Deserialize)]
     struct TransitDetails {
         line: Line,
     }
-
     #[derive(Clone, Debug, Deserialize)]
     struct Line {
         vehicle: Vehicle,
     }
-
     #[derive(Clone, Debug, Deserialize)]
     struct Vehicle {
         r#type: String,
@@ -203,7 +196,6 @@ fn measure_route(
             .filter_map(|vehicle_type| TransitMode::parse_vehicle_type(&vehicle_type))
             .collect::<Vec<_>>();
         assert!(transit_modes.len() > 0);
-        dbg!(&transit_modes);
 
         // FIXME: atm we just take the first transit mode for the whole trip, but we
         // should calculate it for each step
