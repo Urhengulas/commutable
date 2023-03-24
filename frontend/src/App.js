@@ -67,15 +67,6 @@ const RouteSelection = (props) => {
   );
 }
 
-const CommuteTypeSelection = () => {
-  return(
-    <Container style={{minHeight: '300px'}}>
-      <Typography align='left' variant='h6'>Your Week</Typography>
-      <div>some 5 days as a selection</div>
-    </Container>
-  );
-}
-
 const CarSelection = () => {
   return(
     <Container style={{ minHeight: '220px', marginBottom: '20px'}}>
