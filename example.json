@@ -1,0 +1,384 @@
+{
+    "geocoded_waypoints": [
+        {
+            "geocoder_status": "OK",
+            "place_id": "ChIJcR8JT3VPqEcROMZjHAxWDeU",
+            "types": [
+                "premise"
+            ]
+        },
+        {
+            "geocoder_status": "OK",
+            "place_id": "ChIJ_9GKuA9OqEcRyWZgbmzBdwI",
+            "types": [
+                "street_address"
+            ]
+        }
+    ],
+    "routes": [
+        {
+            "bounds": {
+                "northeast": {
+                    "lat": 52.5407048,
+                    "lng": 13.4757385
+                },
+                "southwest": {
+                    "lat": 52.4692234,
+                    "lng": 13.4277911
+                }
+            },
+            "copyrights": "Map data ©2023 GeoBasis-DE/BKG (©2009)",
+            "legs": [
+                {
+                    "arrival_time": {
+                        "text": "12:52 AM",
+                        "time_zone": "Europe/Berlin",
+                        "value": 1679615544
+                    },
+                    "departure_time": {
+                        "text": "12:10 AM",
+                        "time_zone": "Europe/Berlin",
+                        "value": 1679613010
+                    },
+                    "distance": {
+                        "text": "12.0 km",
+                        "value": 12012
+                    },
+                    "duration": {
+                        "text": "42 mins",
+                        "value": 2534
+                    },
+                    "end_address": "Am Friedrichshain 20D, 10407 Berlin, Germany",
+                    "end_location": {
+                        "lat": 52.53068589999999,
+                        "lng": 13.429721
+                    },
+                    "start_address": "Richardstraße 64, 12055 Berlin, Germany",
+                    "start_location": {
+                        "lat": 52.4725803,
+                        "lng": 13.4458928
+                    },
+                    "steps": [
+                        {
+                            "distance": {
+                                "text": "0.6 km",
+                                "value": 622
+                            },
+                            "duration": {
+                                "text": "8 mins",
+                                "value": 468
+                            },
+                            "end_location": {
+                                "lat": 52.4694625,
+                                "lng": 13.4420554
+                            },
+                            "html_instructions": "Walk to S+U Neukölln",
+                            "polyline": {
+                                "points": "spg_IycaqALENATEh@KXM|D{@Ff@HpADj@@Pd@jHB\\LxB@h@TlE@PDj@JAJChAKNANCD??GBARE?BNA?IV_@"
+                            },
+                            "start_location": {
+                                "lat": 52.4725803,
+                                "lng": 13.4458928
+                            },
+                            "steps": [
+                                {
+                                    "distance": {
+                                        "text": "0.2 km",
+                                        "value": 182
+                                    },
+                                    "duration": {
+                                        "text": "2 mins",
+                                        "value": 138
+                                    },
+                                    "end_location": {
+                                        "lat": 52.4710305,
+                                        "lng": 13.446386
+                                    },
+                                    "html_instructions": "Head \u003cb\u003esouth\u003c/b\u003e on \u003cb\u003eRichardstraße\u003c/b\u003e toward \u003cb\u003eBöhmische Str.\u003c/b\u003e",
+                                    "polyline": {
+                                        "points": "spg_IycaqALENATEh@KXM|D{@"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.4725803,
+                                        "lng": 13.4458928
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "0.3 km",
+                                        "value": 330
+                                    },
+                                    "duration": {
+                                        "text": "4 mins",
+                                        "value": 247
+                                    },
+                                    "end_location": {
+                                        "lat": 52.4704631,
+                                        "lng": 13.4416634
+                                    },
+                                    "html_instructions": "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eBraunschweiger Str.\u003c/b\u003e",
+                                    "maneuver": "turn-right",
+                                    "polyline": {
+                                        "points": "}fg_I}faqAFf@HpADj@@Pd@jHB\\LxB@h@TlE@PDj@"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.4710305,
+                                        "lng": 13.446386
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "94 m",
+                                        "value": 94
+                                    },
+                                    "duration": {
+                                        "text": "1 min",
+                                        "value": 66
+                                    },
+                                    "end_location": {
+                                        "lat": 52.4695803,
+                                        "lng": 13.4418524
+                                    },
+                                    "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eKarl-Marx-Straße\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                                    "maneuver": "turn-left",
+                                    "polyline": {
+                                        "points": "kcg_Iki`qAJAJChAKNANCD??GBARE?BNA"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.4704631,
+                                        "lng": 13.4416634
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "16 m",
+                                        "value": 16
+                                    },
+                                    "duration": {
+                                        "text": "1 min",
+                                        "value": 17
+                                    },
+                                    "end_location": {
+                                        "lat": 52.4694625,
+                                        "lng": 13.4420554
+                                    },
+                                    "html_instructions": "Take entrance \u003cspan class=\"location\"\u003eKarl-Marx-Str./Saalestr.\u003c/span\u003e",
+                                    "polyline": {
+                                        "points": "{}f_I{j`qAV_@"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.469584,
+                                        "lng": 13.441904
+                                    },
+                                    "travel_mode": "WALKING"
+                                }
+                            ],
+                            "travel_mode": "WALKING"
+                        },
+                        {
+                            "distance": {
+                                "text": "9.9 km",
+                                "value": 9938
+                            },
+                            "duration": {
+                                "text": "16 mins",
+                                "value": 960
+                            },
+                            "end_location": {
+                                "lat": 52.5405241,
+                                "lng": 13.4389295
+                            },
+                            "html_instructions": "Commuter train towards S+U Westhafen (Berlin)",
+                            "polyline": {
+                                "points": "c}f_I{k`qAn@SQeBS}BC_@AQKqAIcAMyAMwA?IQwBGk@Eq@CU[}DWoD[eEMqBUwCCg@QwBAKE_@S_BIg@I_@IYMi@CIY_AO_@[{@u@aBa@u@eAeB_@g@i@q@GGg@g@KKa@]AAm@a@e@W[OGA_@OWIKCi@OSE_@GMCs@ISCa@G}BWqDc@u@K}BWiC[{ASs@IG?gBUg@Gu@KuBWyBW}BYkC[gCY{BY]Ei@Gk@IeCYqAQo@GQCOCwBYQCgAQc@GOC]EWEc@IgAO_@Iw@OiBWgAOMCw@Kc@IaAMUEWEa@IA?o@Io@KWGYIGC_@KC?MGiAg@eAi@a@UECe@YGC_BmAk@o@MOm@m@]]_@]_@]WUg@_@k@c@SO_@WaAgAW_@u@iA[g@KQ_@m@IM_@o@U]KSi@y@Wa@m@_AKQ[g@GKe@y@OSYa@AA]a@[a@_@_@EEYWUOSMUOa@UWM]OYI_@Mw@Uo@Qk@Ow@Uu@Uo@SGAq@SeA[qAa@WGm@SYKICa@Oa@Qc@O}@_@EAa@Qc@Qy@[a@QCA]Q]QCA]Se@[WSECOOi@e@g@g@]]OMSQ{@{@c@_@][qAmAgCaCCCeC_CKKOM}@}@s@q@g@c@EGuAqA]]q@i@o@[oAg@uAWK?a@CsAB{@Jk@HA?c@HeAN}@LGBc@FeAP]FMBA?A?I@YDc@FeAZSFC@k@Vw@\\eAh@sHvEcAn@}DfCkDxB_@VmAv@SJqAp@u@^SJMDE@g@VyAp@EDm@`@e@^ED?@a@^aApAe@x@o@tAQb@a@lA]tAQt@WpAO`AYnBWfBa@dCG^AFIf@GZGT]dBQz@CJG\\CHOr@Mr@Qv@_@pB_@bB[zAc@nBADOj@Sx@A@}@vCSd@Uf@ABIN]p@c@n@a@d@[Z_@b@CBoAnAcDzC]Xc@d@KLQP{@~@[\\_@`@YZC@uAvAcAbAq@t@[`@sAbBm@p@sAtA_@^k@h@UVc@b@s@p@s@r@[ZkAlAy@v@w@v@u@r@_A~@cBbBeAfA_@\\{@|@A?m@l@u@z@EDMNIHONk@r@i@~@q@rAABk@zASd@Yr@ITWr@]|@[z@a@rAm@xBq@jCo@dCg@lBu@pC[dAg@tAAB_BlEITSl@St@WY"
+                            },
+                            "start_location": {
+                                "lat": 52.4694625,
+                                "lng": 13.4420554
+                            },
+                            "transit_details": {
+                                "arrival_stop": {
+                                    "location": {
+                                        "lat": 52.5405241,
+                                        "lng": 13.4389295
+                                    },
+                                    "name": "S Greifswalder Str."
+                                },
+                                "arrival_time": {
+                                    "text": "12:34 AM",
+                                    "time_zone": "Europe/Berlin",
+                                    "value": 1679614440
+                                },
+                                "departure_stop": {
+                                    "location": {
+                                        "lat": 52.4694625,
+                                        "lng": 13.4420554
+                                    },
+                                    "name": "S+U Neukölln"
+                                },
+                                "departure_time": {
+                                    "text": "12:18 AM",
+                                    "time_zone": "Europe/Berlin",
+                                    "value": 1679613480
+                                },
+                                "headsign": "S+U Westhafen (Berlin)",
+                                "line": {
+                                    "agencies": [
+                                        {
+                                            "name": "S-Bahn Berlin GmbH",
+                                            "phone": "011 49 30 29743333",
+                                            "url": "http://www.s-bahn-berlin.de/"
+                                        }
+                                    ],
+                                    "color": "#cc6319",
+                                    "short_name": "S42",
+                                    "url": "https://www.vbb.de/fahrinformation/liniennetze/",
+                                    "vehicle": {
+                                        "icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/rail2.png",
+                                        "local_icon": "//maps.gstatic.com/mapfiles/transit/iw2/6/de-sbahn.png",
+                                        "name": "Commuter train",
+                                        "type": "COMMUTER_TRAIN"
+                                    }
+                                },
+                                "num_stops": 7
+                            },
+                            "travel_mode": "TRANSIT"
+                        },
+                        {
+                            "distance": {
+                                "text": "1.5 km",
+                                "value": 1452
+                            },
+                            "duration": {
+                                "text": "18 mins",
+                                "value": 1104
+                            },
+                            "end_location": {
+                                "lat": 52.53068589999999,
+                                "lng": 13.429721
+                            },
+                            "html_instructions": "Walk to Am Friedrichshain 20D, 10407 Berlin, Germany",
+                            "polyline": {
+                                "points": "gyt_Iix_qAa@j@ADPTJLLLpA`BLRJNNNJLHJNPPRNNdAnALNLP`@f@FA`CvCHL|BpCP\\f@l@`@f@TVBDT\\hBzB@EDM@CBBPRCDEJAFTTBIDKHNFHADCFr@|@XZPRPZPJDFNZDD|@fAPTRVPRV\\JJJNPRHLDFTVb@j@X\\r@z@hAtAJLBIBDNTDBA?FH`@f@DFLP^b@\\b@HHJP^f@VXDDJLPTRV\\b@JLV}@@Y^kADQBCHIBIv@uBCq@@K"
+                            },
+                            "start_location": {
+                                "lat": 52.5405241,
+                                "lng": 13.4389295
+                            },
+                            "steps": [
+                                {
+                                    "distance": {
+                                        "text": "23 m",
+                                        "value": 23
+                                    },
+                                    "duration": {
+                                        "text": "1 min",
+                                        "value": 24
+                                    },
+                                    "end_location": {
+                                        "lat": 52.5406912,
+                                        "lng": 13.438714
+                                    },
+                                    "html_instructions": "Take exit \u003cspan class=\"location\"\u003e\u003c/span\u003e",
+                                    "polyline": {
+                                        "points": "gyt_Iix_qAa@j@"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.5405241,
+                                        "lng": 13.4389295
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "1.3 km",
+                                        "value": 1269
+                                    },
+                                    "duration": {
+                                        "text": "16 mins",
+                                        "value": 948
+                                    },
+                                    "end_location": {
+                                        "lat": 52.5313731,
+                                        "lng": 13.4277911
+                                    },
+                                    "html_instructions": "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eGreifswalder Str.\u003c/b\u003e/\u003cwbr/\u003e\u003cb\u003eB2\u003c/b\u003e",
+                                    "polyline": {
+                                        "points": "kzt_Iwv_qAPTJLLLpA`BLRJNNNJLHJNPPRNNdAnALNLP`@f@FA`CvCHL|BpCP\\f@l@`@f@TVBDT\\hBzB@EDM@CBBPRCDEJAFTTBIDKHNFHADCFr@|@XZPRPZPJDFNZDD|@fAPTRVPRV\\JJJNPRHLDFTVb@j@X\\r@z@hAtAJLBIBDNTDBA?FH`@f@DFLP^b@\\b@HHJP^f@VXDDJLPTRV\\b@JL"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.5407048,
+                                        "lng": 13.4386828
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "91 m",
+                                        "value": 91
+                                    },
+                                    "duration": {
+                                        "text": "1 min",
+                                        "value": 79
+                                    },
+                                    "end_location": {
+                                        "lat": 52.5309592,
+                                        "lng": 13.4288152
+                                    },
+                                    "html_instructions": "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eAm Schweizer Garten\u003c/b\u003e",
+                                    "maneuver": "turn-left",
+                                    "polyline": {
+                                        "points": "a`s_Iur}pAV}@@Y^kADQBCHIBI"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.5313731,
+                                        "lng": 13.4277911
+                                    },
+                                    "travel_mode": "WALKING"
+                                },
+                                {
+                                    "distance": {
+                                        "text": "69 m",
+                                        "value": 69
+                                    },
+                                    "duration": {
+                                        "text": "1 min",
+                                        "value": 53
+                                    },
+                                    "end_location": {
+                                        "lat": 52.53068589999999,
+                                        "lng": 13.429721
+                                    },
+                                    "html_instructions": "Continue onto \u003cb\u003eAm Friedrichshain\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                                    "polyline": {
+                                        "points": "o}r_Icy}pAv@uBCq@@K"
+                                    },
+                                    "start_location": {
+                                        "lat": 52.5309592,
+                                        "lng": 13.4288152
+                                    },
+                                    "travel_mode": "WALKING"
+                                }
+                            ],
+                            "travel_mode": "WALKING"
+                        }
+                    ],
+                    "traffic_speed_entry": [],
+                    "via_waypoint": []
+                }
+            ],
+            "overview_polyline": {
+                "points": "spg_IycaqA|AYXM|D{@PxBp@fKf@bKDj@JAtAO^ED??GVG?BNA?IV_@n@SQeBW}CMcBe@_Gc@kF}AeTm@cIY_CSgAu@mCk@{AwAwCeBmCq@y@wAsAsAy@c@Qw@Yu@SuB[eJgAeR{BqYkDwNgBoHgAwAYqDg@kDg@qAU_BUq@Qy@WoCqAg@Ym@]_BmAk@o@{@}@}@{@kCwBs@g@aAgAW_@u@iAg@y@_BiCqEoHiAyA{@aA_@]aBcAu@]y@WkEmA_D_A}EyAgBq@mGeC}Ay@sAcAqGcGqN}MaD{Cq@i@o@[oAg@uAWm@CsAB{@Jm@HiBXoDj@o@Jc@Fc@FeAZWHcBt@eAh@sHvEaGvDmHtEiDbBgCjA_BlAa@`@aApAe@x@aAxB_AbDi@fCi@pDcAtGw@~DqB`KaBtHc@dB_AxCu@`BaA`B}@`Ac@f@sFjFaA~@]^qCzCoErEoBdCaCfCeCdCwLrLeGfGkBnBsA|A{ArCm@~AoAbDy@xBoAlE_EpOeDlJ]bASt@WYc@p@\\b@xBrCt@z@`@b@rA~An@x@FA`CvCfC~CP\\f@l@v@~@Xb@hBzB@EFQTVIPAFTTHUPXELlAxAb@n@VRT`@tBhC`AlAlFvGBIBDTXl@x@l@t@f@l@hAxAnA~AJLV}@@Y^kAHULSv@uBCq@@K"
+            },
+            "summary": "",
+            "warnings": [
+                "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+            ],
+            "waypoint_order": []
+        }
+    ],
+    "status": "OK"
+}
