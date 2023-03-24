@@ -229,7 +229,7 @@ fn calculate_emission(distance: u32, transport: &Transport) -> u32 {
 fn main() {
     let home = "Richardstraße 64, 12055".into();
     let work = "Am Friedrichshain 20D, 10407 Berlin".into();
-    println!("Measure route from \"{home}\" to \"{work}\".");
+    println!("Measure route from \"{home}\" to \"{work}\" and back.");
 
     let car = Transport::Car {
         propulsion: Propulsion::Diesel,
@@ -262,7 +262,7 @@ fn main() {
             "{} takes {} minutes and produces {} kg of CO2 equivalent per Person. That is a {:.2}% reduction compared to taking the car.",
             transport,
             duration / 60,
-            emissions / 1000,
+            (emissions / 1000) * 2,
             savings,
         )
     }
