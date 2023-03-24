@@ -1,6 +1,7 @@
-use std::{collections::HashMap, fmt::Display};
+use std::{fmt::Display, str::FromStr};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use warp::{Filter, Rejection, Reply};
 
 const BASE_URL: &str = "https://maps.googleapis.com/maps/api/directions/json";
 const API_KEY: &str = include_str!("../maps-api-key");
@@ -21,21 +22,47 @@ enum Transport {
     Walking,
 }
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
 enum Propulsion {
     Diesel,
     Electric,
     Gas,
 }
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+impl FromStr for Propulsion {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(match s {
+            "diesel" | "Diesel" => Self::Diesel,
+            "electric" | "Electric" => Self::Diesel,
+            "gas" | "Gas" => Self::Diesel,
+            _ => unreachable!(),
+        })
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
 enum CarSize {
     Small,
     Medium,
     Big,
 }
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+impl FromStr for CarSize {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(match s {
+            "small" | "Small" => Self::Small,
+            "medium" | "Medium" => Self::Medium,
+            "big" | "Big" => Self::Big,
+            _ => unreachable!(),
+        })
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
 struct Location(String);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -139,14 +166,14 @@ impl TransitMode {
 /// `origin` and `destination` are expected to represent addresses.
 ///
 /// Returns the `distance` in meters and `duration` in seconds.
-fn measure_route(
+async fn measure_route(
     origin: &Location,
     destination: &Location,
     transport: &mut Transport,
 ) -> (u32, u32) {
     // the structs are needed to deserialize the response
     #[derive(Debug, Deserialize)]
-    struct Response {
+    struct MapsResponse {
         routes: Vec<Route>,
     }
     #[derive(Debug, Deserialize)]
@@ -194,8 +221,8 @@ fn measure_route(
         url.push_str(format!("&waypoints=via:{stopover}").as_str())
     }
 
-    let res: Response = reqwest::blocking::get(&url).unwrap().json().unwrap();
-    let leg = &res.routes[0].legs[0];
+    let json: MapsResponse = reqwest::get(&url).await.unwrap().json().await.unwrap();
+    let leg = &json.routes[0].legs[0];
 
     if let Transport::Transit(transit_mode) = transport {
         let transit_modes = leg
@@ -226,44 +253,56 @@ fn calculate_emission(distance: u32, transport: &Transport) -> u32 {
     (distance * transport.co2()) / number_of_people
 }
 
-fn main() {
-    let home = "Richardstraße 64, 12055".into();
-    let work = "Am Friedrichshain 20D, 10407 Berlin".into();
-    println!("Measure route from \"{home}\" to \"{work}\" and back.");
+#[tokio::main]
+async fn main() {
+    let router = warp::path("car")
+        .and(warp::query::<RouteQuery>())
+        .and(warp::query::<CarQuery>())
+        .and_then(handle_car)
+        .boxed();
 
-    let car = Transport::Car {
-        propulsion: Propulsion::Diesel,
-        size: CarSize::Medium,
-    };
-    let calculation = [
-        car.clone(),
-        Transport::CarPool {
-            propulsion: Propulsion::Diesel,
-            size: CarSize::Medium,
-            stopover: "Lohmühlenstraße 65, 12435 Berlin".into(),
-        },
-        Transport::Cycling,
-        Transport::Transit(None),
-        Transport::Walking,
-    ]
-    .into_iter()
-    .map(|mut transport| {
-        let (distance, duration) = measure_route(&home, &work, &mut transport);
-        let emissions = calculate_emission(distance, &transport);
-        (transport, [duration, emissions])
-    })
-    .collect::<HashMap<_, _>>();
+    warp::serve(router).run(([127, 0, 0, 1], 3030)).await;
+}
 
-    let [_, car_emission] = calculation.get(&car).unwrap();
+#[derive(Debug, Deserialize)]
+struct RouteQuery {
+    origin: Location,
+    destination: Location,
+}
 
-    for (transport, [duration, emissions]) in &calculation {
-        let savings = 100 - (100 * emissions / car_emission);
-        println!(
-            "{} takes {} minutes and produces {} kg of CO2 equivalent per Person. That is a {:.2}% reduction compared to taking the car.",
-            transport,
-            duration / 60,
-            (emissions / 1000) * 2,
-            savings,
-        )
-    }
+#[derive(Debug, Deserialize)]
+struct CarQuery {
+    propulsion: String,
+    size: String,
+}
+
+// #[derive(Debug, Deserialize)]
+// struct CarPoolQuery {
+//     propulsion: String,
+//     car_size: String,
+// }
+
+#[derive(Debug, Serialize)]
+struct CarResponse {
+    distance: u32,
+    duration: u32,
+    emissions: u32,
+}
+
+async fn handle_car(route_query: RouteQuery, car_query: CarQuery) -> Result<impl Reply, Rejection> {
+    let propulsion = car_query.propulsion.parse::<Propulsion>().unwrap();
+    let size = car_query.size.parse::<CarSize>().unwrap();
+    let mut transport = Transport::Car { propulsion, size };
+    let (distance, duration) = measure_route(
+        &route_query.origin,
+        &route_query.destination,
+        &mut transport,
+    )
+    .await;
+    let emissions = calculate_emission(distance, &transport);
+    Ok(warp::reply::json(&CarResponse {
+        distance,
+        duration,
+        emissions,
+    }))
 }
