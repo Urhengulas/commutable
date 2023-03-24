@@ -41,6 +41,7 @@ struct Location(String);
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 enum TransitMode {
     Bus,
+    Sbahn,
     Subway,
     Train,
     Tram,
@@ -68,13 +69,29 @@ impl Transport {
         }
     }
 
-    /// g CO2 per km
+    /// g CO2 eq per km
     fn co2(&self) -> u32 {
         match self {
-            // TODO: consider car size
-            Transport::Car { .. } | Transport::CarPool { .. } => 118,
+            Transport::CarPool {
+                propulsion, size, ..
+            }
+            | Transport::Car { propulsion, size } => match (propulsion, size) {
+                (Propulsion::Diesel, CarSize::Small) => 240,
+                (Propulsion::Diesel, CarSize::Medium) => 310,
+                (Propulsion::Diesel, CarSize::Big) => 390,
+                (Propulsion::Electric, CarSize::Small) => 160,
+                (Propulsion::Electric, CarSize::Medium) => 200,
+                (Propulsion::Electric, CarSize::Big) => 240,
+                (Propulsion::Gas, CarSize::Small) => 280,
+                (Propulsion::Gas, CarSize::Medium) => 340,
+                (Propulsion::Gas, CarSize::Big) => 410,
+            },
             Transport::Cycling | Transport::Walking => 0,
-            Transport::Transit(Some(_)) => 86,
+            Transport::Transit(Some(transit_mode)) => match transit_mode {
+                TransitMode::Bus => 108,
+                TransitMode::Train => 93,
+                TransitMode::Sbahn | TransitMode::Subway | TransitMode::Tram => 80,
+            },
             Transport::Transit(None) => {
                 unreachable!("transit mode needs to be set to calculate CO2")
             }
@@ -102,9 +119,9 @@ impl TransitMode {
     fn parse_vehicle_type(s: &str) -> Option<Self> {
         match s {
             "BUS" | "INTERCITY_BUS" | "TROLLEYBUS" => Some(Self::Bus),
+            "COMMUTER_TRAIN" => Some(Self::Sbahn),
             "SUBWAY" => Some(Self::Subway),
-            "COMMUTER_TRAIN"
-            | "HEAVY_RAIL"
+            "HEAVY_RAIL"
             | "HIGH_SPEED_TRAIN"
             | "LONG_DISTANCE_TRAIN"
             | "METRO_RAIL"
