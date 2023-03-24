@@ -14,6 +14,7 @@ const App = () => {
   const [requestDone, setRequestDone] = useState(false)
   const [data, setData] = useState({})
   const [fuelType, setFuelType] = useState('gas');
+  const [carSize, setCarSize] = useState('medium');
 
 
   const handleFueltypeChange = (
@@ -21,6 +22,15 @@ const App = () => {
     newAlignment,
   ) => {
     setFuelType(newAlignment);
+    console.log(fuelType)
+  };
+
+  const handleCarSizeChange = (
+    event,
+    newAlignment,
+  ) => {
+    setCarSize(newAlignment);
+    console.log(carSize)
   };
 
   return (
@@ -28,10 +38,11 @@ const App = () => {
       <Title />
       <RouteSelection setHome={setHome} setWork={setWork} />
       {/* TODO: Car selection is only shown when car has been chosen as one of the commute choices */}
-      <CarSelection handleFuelTypeChange={handleFueltypeChange} fuelType={fuelType} />
+      <CarSelection handleFuelTypeChange={handleFueltypeChange} handleCarSizeChange={handleCarSizeChange} fuelType={fuelType} carSize={carSize} />
       {/* Button to confirm */}
       <Button variant='contained' onClick={ () => {
-        console.log(sendRequest(setData, setRequestDone ,"CAR", home, work, "gas", "medium"));
+        setRequestDone(false)
+        console.log(sendRequest(setData, setRequestDone ,"CAR", home, work, fuelType, carSize));
        }}>
         Calculate savings !
       </Button>
@@ -85,17 +96,36 @@ const CarSelection = (props) => {
   return(
     <Container style={{ minHeight: '220px', marginBottom: '20px'}}>
       <Typography align='left' variant='h6'>Your Car</Typography>
+      <br />
+      <Typography variant="overline">Fuel type</Typography>
+      <br />
       <ToggleButtonGroup
       color="primary"
       value={props.fuelType}
       exclusive
       onChange={props.handleFuelTypeChange}
-      aria-label="Platform"
+      aria-label="FuelType"
       >
         <ToggleButton value="gas">Gas</ToggleButton>
         <ToggleButton value="diesel">Diesel</ToggleButton>
         <ToggleButton value="electric">Electric</ToggleButton>
       </ToggleButtonGroup>
+      <br />
+      <br />
+      <Typography variant="overline" >Car size </Typography>
+      <br />
+      <ToggleButtonGroup
+      color="primary"
+      value={props.carSize}
+      exclusive
+      onChange={props.handleCarSizeChange}
+      aria-label="CarSize"
+      >
+        <ToggleButton value="small">Small</ToggleButton>
+        <ToggleButton value="medium">Medium</ToggleButton>
+        <ToggleButton value="large">Large</ToggleButton>
+      </ToggleButtonGroup>
+      
     </Container>
   );
 }
@@ -115,8 +145,8 @@ const ResultDisplay = (props) => {
 
 //#region Non-Component functions
 
-const sendRequest = (setData, setDone, type, origin, destination, propulsionType, carSize) => {
-  let uriString = 'http://localhost:3030/car?origin=' + origin + '&destination=' + destination + '&propulsion=gas&size=medium';
+const sendRequest = (setData, setDone, type, origin, destination, fuelType, carSize) => {
+  let uriString = 'http://localhost:3030/car?origin=' + origin + '&destination=' + destination + '&propulsion=' + fuelType + '&size=' + carSize;
   let encoded = encodeURI(uriString);
   console.log(encoded);
 
