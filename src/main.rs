@@ -306,19 +306,8 @@ struct ApiResponse {
 async fn handle_car(route_query: RouteQuery, car_query: CarQuery) -> Result<impl Reply, Rejection> {
     let propulsion = car_query.propulsion.parse::<Propulsion>().unwrap();
     let size = car_query.size.parse::<CarSize>().unwrap();
-    let mut transport = Transport::Car { propulsion, size };
-    let (distance, duration) = measure_route(
-        &route_query.origin,
-        &route_query.destination,
-        &mut transport,
-    )
-    .await;
-    let emissions = calculate_emission(distance, &transport);
-    Ok(warp::reply::json(&ApiResponse {
-        distance,
-        duration,
-        emissions,
-    }))
+    let transport = Transport::Car { propulsion, size };
+    handle_transport(route_query, transport).await
 }
 
 async fn handle_carpool(
@@ -328,23 +317,12 @@ async fn handle_carpool(
 ) -> Result<impl Reply, Rejection> {
     let propulsion = car_query.propulsion.parse::<Propulsion>().unwrap();
     let size = car_query.size.parse::<CarSize>().unwrap();
-    let mut transport = Transport::CarPool {
+    let transport = Transport::CarPool {
         propulsion,
         size,
         stopover: carpool_query.stopover,
     };
-    let (distance, duration) = measure_route(
-        &route_query.origin,
-        &route_query.destination,
-        &mut transport,
-    )
-    .await;
-    let emissions = calculate_emission(distance, &transport);
-    Ok(warp::reply::json(&ApiResponse {
-        distance,
-        duration,
-        emissions,
-    }))
+    handle_transport(route_query, transport).await
 }
 
 async fn handle_transport(
