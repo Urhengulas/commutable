@@ -144,6 +144,7 @@ fn measure_route(
     destination: &Location,
     transport: &mut Transport,
 ) -> (u32, u32) {
+    // the structs are needed to deserialize the response
     #[derive(Debug, Deserialize)]
     struct Response {
         routes: Vec<Route>,
@@ -180,8 +181,13 @@ fn measure_route(
     }
 
     let url = format!(
-        "{BASE_URL}?key={API_KEY}&origin={origin}&destination={destination}&mode={}",
-        transport.mode()
+        "{}?key={}&origin={}&destination={}&mode={}&departure_time={}",
+        BASE_URL,
+        API_KEY,
+        origin,
+        destination,
+        transport.mode(),
+        1679896800, // Mon Mar 27 2023 08:00:00 GMT+0200 (CEST)
     );
 
     let res: Response = reqwest::blocking::get(&url).unwrap().json().unwrap();
@@ -249,9 +255,11 @@ fn main() {
     for (transport, [duration, emissions]) in &calculation {
         let savings = 100 - (100 * emissions / car_emission);
         println!(
-            "{transport} takes {} minutes and produces {} kg of CO2. That is a {savings:.2}% reduction compared to taking the car.",
+            "{} takes {} minutes and produces {} kg of CO2 equivalent per Person. That is a {:.2}% reduction compared to taking the car.",
+            transport,
             duration / 60,
-            emissions / 1000
+            emissions / 1000,
+            savings,
         )
     }
 }
