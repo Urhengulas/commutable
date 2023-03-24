@@ -35,8 +35,8 @@ impl FromStr for Propulsion {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
             "diesel" | "Diesel" => Self::Diesel,
-            "electric" | "Electric" => Self::Diesel,
-            "gas" | "Gas" => Self::Diesel,
+            "electric" | "Electric" => Self::Electric,
+            "gas" | "Gas" => Self::Gas,
             _ => unreachable!(),
         })
     }
@@ -341,4 +341,18 @@ async fn handle_transport(
         duration,
         emissions,
     }))
+}
+
+fn experiment_function() {
+    let home = "Hamburg".into();
+    let work = "Berlin".into();
+    let mut transport = Transport::Car {
+        propulsion: Propulsion::Electric,
+        size: CarSize::Medium,
+    };
+    let (distance, duration) = measure_route(&home, &work, &mut transport).await;
+    let emissions = calculate_emission(distance, &transport);
+    println!("{} km", distance / 1000);
+    println!("{} minutes", duration / 60);
+    println!("{} kg CO2", emissions / 1000);
 }
