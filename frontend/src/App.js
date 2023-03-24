@@ -2,42 +2,52 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import '@mui/material/Button'
+import { Container, Typography, TextField } from '@mui/material';
 
 const App = () => {
 
   return (
-    <div className="App">
+    <Container className="App" maxWidth='xs'>
       <RouteSelection></RouteSelection>
       <CommuteTypeSelection></CommuteTypeSelection>
       {/* TODO: Car selection is only shown when car has been chosen as one of the commute choices */}
       <CarSelection></CarSelection>
       {/* Button to confirm */}
       {/* Result screen */}
-      </div>
+      </Container>
   );
 }
 
 const RouteSelection = () => {
   return(
-    <div>
-      
-    </div>
+    <Container margin='normal'>
+      <Typography align='left' variant='h6'>Your Addresses</Typography>
+      <TextField margin='normal' fullWidth='90%'
+        id="homeAddress"
+        label="Home Address"
+      />
+      <br />
+      <TextField margin='normal' fullWidth='90%'
+      id="workAddress"
+      label="Work Address"
+    />
+    </Container>
   );
 }
 
 const CommuteTypeSelection = () => {
   return(
-    <div>
-      
-    </div>
+    <Container>
+      <Typography align='left' variant='h6'>Your Week</Typography>
+    </Container>
   );
 }
 
 const CarSelection = () => {
   return(
-    <div>
+    <Container>
 
-    </div>
+    </Container>
   );
 }
 
