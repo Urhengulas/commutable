@@ -266,15 +266,16 @@ async fn main() {
         .and_then(handle_carpool);
     let cycle = warp::path!("cycle")
         .and(warp::query::<RouteQuery>())
-        .and_then(handle_cycle);
+        .and_then(|route_query| handle_transport(route_query, Transport::Cycle));
     let transit = warp::path!("transit")
         .and(warp::query::<RouteQuery>())
-        .and_then(handle_transit);
+        .and_then(|route_query| handle_transport(route_query, Transport::Transit(None)));
     let walk = warp::path!("walk")
         .and(warp::query::<RouteQuery>())
-        .and_then(handle_walk);
+        .and_then(|route_query| handle_transport(route_query, Transport::Walk));
     let router = car.or(car_pool).or(cycle).or(transit).or(walk);
 
+    println!("Started listening on http://127.0.0.1:3030.");
     warp::serve(router).run(([127, 0, 0, 1], 3030)).await;
 }
 
@@ -346,40 +347,10 @@ async fn handle_carpool(
     }))
 }
 
-async fn handle_cycle(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
-    let mut transport = Transport::Cycle;
-    let (distance, duration) = measure_route(
-        &route_query.origin,
-        &route_query.destination,
-        &mut transport,
-    )
-    .await;
-    let emissions = calculate_emission(distance, &transport);
-    Ok(warp::reply::json(&ApiResponse {
-        distance,
-        duration,
-        emissions,
-    }))
-}
-
-async fn handle_transit(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
-    let mut transport = Transport::Transit(None);
-    let (distance, duration) = measure_route(
-        &route_query.origin,
-        &route_query.destination,
-        &mut transport,
-    )
-    .await;
-    let emissions = calculate_emission(distance, &transport);
-    Ok(warp::reply::json(&ApiResponse {
-        distance,
-        duration,
-        emissions,
-    }))
-}
-
-async fn handle_walk(route_query: RouteQuery) -> Result<impl Reply, Rejection> {
-    let mut transport = Transport::Walk;
+async fn handle_transport(
+    route_query: RouteQuery,
+    mut transport: Transport,
+) -> Result<impl Reply, Rejection> {
     let (distance, duration) = measure_route(
         &route_query.origin,
         &route_query.destination,
