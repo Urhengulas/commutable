@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import '@mui/material/Button'
-import  { Container, Button, Typography, TextField, ThemeProvider } from '@mui/material';
+import  { Container, Button, Typography, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import axios, {isCancel, AxiosError} from 'axios';
 import { border } from '@mui/system';
 
@@ -13,13 +13,22 @@ const App = () => {
   const [work, setWork] = useState('');
   const [requestDone, setRequestDone] = useState(false)
   const [data, setData] = useState({})
+  const [fuelType, setFuelType] = useState('gas');
+
+
+  const handleFueltypeChange = (
+    event,
+    newAlignment,
+  ) => {
+    setFuelType(newAlignment);
+  };
 
   return (
     <Container className="App" maxWidth='xs' style={{ boxShadow: '10px 10px 52px 0px rgba(0,0,0,0.39)', paddingBottom: '30px', minHeight: '100vh'}}>
       <Title />
       <RouteSelection setHome={setHome} setWork={setWork} />
       {/* TODO: Car selection is only shown when car has been chosen as one of the commute choices */}
-      <CarSelection />
+      <CarSelection handleFuelTypeChange={handleFueltypeChange} fuelType={fuelType} />
       {/* Button to confirm */}
       <Button variant='contained' onClick={ () => {
         console.log(sendRequest(setData, setRequestDone ,"CAR", home, work, "gas", "medium"));
@@ -67,12 +76,26 @@ const RouteSelection = (props) => {
   );
 }
 
-const CarSelection = () => {
+const CarSelection = (props) => {
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    props.setFuelType(e.target.value)
+  }
+
   return(
     <Container style={{ minHeight: '220px', marginBottom: '20px'}}>
       <Typography align='left' variant='h6'>Your Car</Typography>
-      <>CAR GO BROOM</>
-
+      <ToggleButtonGroup
+      color="primary"
+      value={props.fuelType}
+      exclusive
+      onChange={props.handleFuelTypeChange}
+      aria-label="Platform"
+      >
+        <ToggleButton value="gas">Gas</ToggleButton>
+        <ToggleButton value="diesel">Diesel</ToggleButton>
+        <ToggleButton value="electric">Electric</ToggleButton>
+      </ToggleButtonGroup>
     </Container>
   );
 }
